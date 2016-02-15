@@ -1,0 +1,105 @@
+#
+#	You must fill in the your name, umail address, and perm number below:  
+#	Partner1 first name:
+#	Partner1 last  name:
+#	Partner1 umail account: 
+#	Partner1 perm number: 
+#	Leave the following blank if you do not have a partner for this assignment. 
+#	Otherwise, fill in the partner's name, umail address, and perm number below:
+#	Partner2 first name:	
+#	Partner2 last  name:
+#	Partner2 umail account: 
+#	Partner2 perm number: 
+#	NOTE:	One and only one partner should turn in the codes for grading. 
+#	It does not matter which partner does that; both partners will receive the same score. 
+#
+
+
+"""
+DNA to RNA to protein transcription / translation
+"""
+def DNA2Protein(ifname, cfname, mfname='mRNA.txt') :
+	pass		# replace this line with your codes		
+
+
+"""
+DNA to mRNA transcription, c <-> g, a -> u, t-> a 
+"""
+def DNA2mRNA(ifname="dna.txt", ofname = 'mRNA.txt') :
+    dic1 = {"c":"G","g":"C","a":"U","t":"A"}
+    dna = open(ifname,'r').read()
+    print("dna:{}".format(dna[0:50]))
+    rna = dna
+    for a in dic1:
+            rna = rna.replace(a,dic1[a])
+    rna = rna.lower()
+    open(ofname,'w').write(rna)
+
+    
+            
+
+    
+"""
+mRNA to protein translation 
+"""
+def mRNA2Protein(cfname='rna_codon.txt', ifname='mRNA.txt') :
+    rna = open(ifname,'r').read()
+    codons = open(cfname,'r')
+    rna = rna.replace(" ", "")
+    rna = rna.replace("\n","")
+    codondic = {}
+    startlist = []
+    endlist = []
+    removed = 0
+    for a in codons.readlines():
+            b = a.split()
+            codondic[b[0]] = b[1]
+            
+            
+    for a in ("0123456789"):
+            rna = rna.replace(a,"")
+    rna = rna.upper()
+    
+    rnaList = []
+    proteinList = []
+    for b in range(0,len(rna),3):
+        rnaList.append(rna[b:b+3])
+
+    
+
+                    
+    for a in rnaList:
+            for c in codondic:
+                    if a == c:
+                            proteinList.append(codondic[c])
+    
+    protein = "".join(proteinList)
+    proteinSequence = protein.split("Stop")
+    print(len(protein.split("Stop")))
+    lim = len(proteinSequence)
+    for b in range(lim):
+            if 'M' in proteinSequence[b]:
+                    if b==0:
+                            removed+=proteinSequence[b].index("M")+1
+                            proteinSequence[b] = proteinSequence[b][proteinSequence[b].index("M"):]   
+
+                            
+                    else:
+                            removed+=proteinSequence[b].index("M")+1 + len(proteinSequence[(b)-1])
+                            proteinSequence[b] = proteinSequence[b][proteinSequence[b].index("M"):]   
+                            endlist.append(len(proteinSequence[b]) + removed)
+                            startlist.append(removed)
+            else:
+                    removed+=len(proteinSequence[b])
+                    del(proteinSequence[b])
+                    b-=1
+    
+    for a in range(len(startlist)):
+            print("start{}:, end:{}".format(startlist[a],endlist[a]))
+
+    
+
+#
+# if necessary, you can define more functions below 
+#
+
